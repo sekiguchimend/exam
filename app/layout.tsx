@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { ThemeProvider } from "@/components/theme-provider"
-
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "../components/Header";
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,7 +24,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-        <Header />
+            <Header />
         {children}
         </ThemeProvider></body>
     </html>

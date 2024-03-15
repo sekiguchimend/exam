@@ -20,39 +20,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Calendar } from "@/components/ui/calendar";
-import next from 'next';
 import Link from 'next/link';
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description: "A modal dialog that interrupts the user with important content and expects a response.",
+    title: "東京大学",
+    href: "/toudai",
+    description: "東京大学を志望する方のコミュニティー。赤門目指して頑張ろう！",
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description: "For sighted users to preview content available behind a link.",
+    title: "京都大学",
+    href: "/kyouto",
+    description: "京都大学を志望する方のコミュニティー。奇人を目指して頑張ろう！",
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description: "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    title: "東京工業大学",
+    href: "/toukou",
+    description: "東工大を志望する方のコミュニティー。数学病を目指して頑張ろう！",
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
+    title: "一橋大学",
+    href: "/hitotubasi",
+    description: "一橋大学を志望する方のコミュニティー。可愛い女子目指して頑張ろう！",
   },
   {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    title: "早稲田大学",
+    href: "/waseda",
+    description: "早稲田大学を志望する方のコミュニティー。最高のキャンパスライフ目指して頑張ろう！",
   },
   {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "慶応義塾大学",
+    href: "/keiou",
+    description: "慶応大学を志望する方のコミュニティー。就活無双を目指して頑張ろう！",
   },
 ];
 
@@ -84,20 +83,24 @@ export const Header = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link legacyBehavior href="/">
-  <a className="mx-auto text-4xl font-serif underline mt-4">
-    <h2>逆転合格</h2>
-  </a>
-</Link>
+       
+
+
 
       </div>
-      
+      <Link href="/" passHref>
+  <div className="mx-auto text-4xl font-serif underline mt-4 cursor-pointer text-center">
+    <h2>逆転合格コミュニティー</h2>
+  </div>
+</Link>
+
+
       <div className="py-8 px-8 flex items-center justify-between">
 
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuTrigger>How to use ?</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <li className="row-span-3">
@@ -107,28 +110,29 @@ export const Header = () => {
                         href="/"
                       >
                         <div className="mb-2 mt-4 text-lg font-medium">
-                          shadcn/ui
+                         アプリ化の推奨
                         </div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          Beautifully designed components built with Radix UI and Tailwind CSS.
+                          当サイトはアプリ化に対応しています。ホーム画面に当サイト
+                          を追加することで簡単に使うことができます。10秒で簡単にアプリ化する方法
                         </p>
                       </a>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/docs" title="Introduction">
-                    Re-usable components built using Radix UI and Tailwind CSS.
+                  <ListItem href="/docs" title="料金の支払い方法">
+                   通常の塾と同じように指定の口座に振り込むだけです
                   </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
-                    How to install dependencies and structure your app.
+                  <ListItem href="/docs/installation" title="パソコン使用の推奨">
+                    スマホ画面も対応していますがパソコンでの使用を推奨する理由
                   </ListItem>
-                  <ListItem href="/docs/primitives/typography" title="Typography">
-                    Styles for headings, paragraphs, lists...etc
+                  <ListItem href="/docs/primitives/typography" title="オフ会の開催">
+                   テスト後などのタイミングで要望があればオフ会を開催します
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+              <NavigationMenuTrigger>University</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                   {components.map((component) => (
@@ -144,7 +148,7 @@ export const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/docs" >
+              <Link href="/university/toudai" >
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Documentation
                 </NavigationMenuLink>
@@ -167,7 +171,7 @@ export const Header = () => {
 };
 
 export default Header;
-
+// 修正後のコード
 const ListItem = React.forwardRef<
  
   React.ElementRef<"a">, // <div>要素を使用するように変更
@@ -193,5 +197,4 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
-
 ListItem.displayName = "ListItem";
