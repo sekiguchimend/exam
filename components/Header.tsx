@@ -83,17 +83,13 @@ export const Header = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-       
-
-
 
       </div>
       <Link href="/" passHref>
-  <div className="mx-auto text-4xl font-serif underline mt-4 cursor-pointer text-center">
-    <h2>逆転合格コミュニティー</h2>
-  </div>
-</Link>
-
+        <div className="mx-auto text-4xl font-serif underline mt-4 cursor-pointer text-center">
+          <h2>逆転合格コミュニティー</h2>
+        </div>
+      </Link>
 
       <div className="py-8 px-8 flex items-center justify-between">
 
@@ -104,29 +100,30 @@ export const Header = () => {
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                         アプリ化の推奨
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          当サイトはアプリ化に対応しています。ホーム画面に当サイト
-                          を追加することで簡単に使うことができます。10秒で簡単にアプリ化する方法
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
+                    <Link href="/">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                        >
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            アプリ化の推奨
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            当サイトはアプリ化に対応しています。ホーム画面に当サイト
+                            を追加することで簡単に使うことができます。10秒で簡単にアプリ化する方法
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </Link>
                   </li>
                   <ListItem href="/docs" title="料金の支払い方法">
-                   通常の塾と同じように指定の口座に振り込むだけです
+                    通常の塾と同じように指定の口座に振り込むだけです
                   </ListItem>
                   <ListItem href="/docs/installation" title="パソコン使用の推奨">
                     スマホ画面も対応していますがパソコンでの使用を推奨する理由
                   </ListItem>
                   <ListItem href="/docs/primitives/typography" title="オフ会の開催">
-                   テスト後などのタイミングで要望があればオフ会を開催します
+                    テスト後などのタイミングで要望があればオフ会を開催します
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
@@ -146,18 +143,22 @@ export const Header = () => {
                   ))}
                 </ul>
               </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/university/toudai" >
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Documentation
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
+                        
+
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+  <Link href="page" passHref>
+    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+      Documentation
+    </NavigationMenuLink>
+  </Link>
+</NavigationMenuItem>
+
           </NavigationMenuList>
+
         </NavigationMenu>
       </div>
-      
+
       <div style={{ position: 'absolute', top: '0', right: '0' }}>
         <Calendar
           mode="single"
@@ -171,30 +172,35 @@ export const Header = () => {
 };
 
 export default Header;
-// 修正後のコード
-const ListItem = React.forwardRef<
- 
-  React.ElementRef<"a">, // <div>要素を使用するように変更
-  React.ComponentPropsWithoutRef<"a"> // 必要に応じてpropsの型も変更
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+
+interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
+  title: string;
+  href: string;
+}
+
+const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
+  ({ className, title, children, href, ...props }, ref) => {
+    return (
+      <li>
+        <Link href={href} passHref>
+          <NavigationMenuLink asChild>
+            <a
+              ref={ref}
+              className={cn(
+                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                className
+              )}
+              {...props}
+            >
+              <div className="text-sm font-medium leading-none">{title}</div>
+              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                {children}
+              </p>
+            </a>
+          </NavigationMenuLink>
+        </Link>
+      </li>
+    );
+  }
+);
 ListItem.displayName = "ListItem";

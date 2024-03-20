@@ -7,6 +7,7 @@ import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import 'firebase/compat/auth'
 import { FaThumbsUp, FaLink, FaUser, FaGoogle } from 'react-icons/fa'
+import React from 'react'; // Reactをインポートすることを忘れないでください
 
 type Post = {
   id: string
@@ -56,6 +57,7 @@ const ZoomSchedule = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center text-orange-600 hover:text-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
+              {/* FaLinkコンポーネントを追加 */}
               <FaLink className="mr-2" />
               Zoomリンク
             </a>
@@ -63,8 +65,9 @@ const ZoomSchedule = () => {
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
+
 
 const BoardPage = () => {
   const [posts, setPosts] = useState<Post[]>([])
@@ -129,15 +132,15 @@ const BoardPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPost.trim() || !user) return;
+    if (!user) return;
   
-    let photoUrl = null; // photoUrlの初期値をnullに設定
+    let photoUrl = null;
     if (photoFile) {
       photoUrl = await uploadPhoto(photoFile);
     }
   
     await firestore.collection('posts').add({
-      text: newPost,
+      text: newPost, // 新しい投稿の文字を追加
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       likes: 0,
       subject,
@@ -146,9 +149,9 @@ const BoardPage = () => {
       uid: user.uid,
       username: user.username,
       profilePhotoUrl: user.profilePhotoUrl,
-      likedBy: [], // likedByフィールドを初期化
+      likedBy: [],
     });
-    setNewPost('');
+    setNewPost(''); // 投稿後に newPost を空に設定
     setPhotoFile(null);
   };
 
@@ -232,72 +235,73 @@ const BoardPage = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
+
       <div className="w-1/3 p-4 bg-white">
-        <h2 className="text-2xl font-bold mb-4 text-indigo-900">写真アップロード</h2>
-        {user ? (
-          <div>
-            <div className="flex items-center mb-4">
-              <img
-                src={user.profilePhotoUrl || '/default-profile.png'}
-                alt="Profile"
-                className="w-10 h-10 rounded-full mr-2"
-              />
-              <div>
-                <p>{user.username}</p>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm text-gray-600 hover:text-gray-800"
-                >
-                  サインアウト
-                </button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="editUsername" className="block text-sm font-medium text-gray-700">
-                ユーザー名の変更
-              </label>
-              <div className="mt-1 flex items-center">
-                <input
-                  type="text"
-                  id="editUsername"
-                  value={editUsername}
-                  onChange={(e) => setEditUsername(e.target.value)}
-                  className="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                />
-                <button
-                  type="button"
-                  onClick={handleUpdateUsername}
-                  className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                >
-                  更新
-                </button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="editProfilePhoto" className="block text-sm font-medium text-gray-700">
-                プロフィール写真の変更
-              </label>
-              <div className="mt-1 flex items-center">
-                <input
-                  type="file"
-                  id="editProfilePhoto"
-                  accept="image/*"
-                  onChange={(e) => setEditProfilePhotoFile(e.target.files?.[0] || null)}
-                  className="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                />
-                {editProfilePhotoFile && (
-                  <button
-                    type="button"
-                    onClick={handleUpdateProfilePhoto}
-                    className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-                  >
-                    アップロード
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : (
+      {user ? (
+  <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="flex items-center mb-2">
+      <img
+        src={user.profilePhotoUrl || '/default-profile.png'}
+        alt="Profile"
+        className="w-10 h-10 rounded-full mr-2"
+      />
+      <div>
+        <p className="text-sm font-semibold">{user.username}</p>
+        <button
+          onClick={handleSignOut}
+          className="text-xs text-gray-600 hover:text-gray-800"
+        >
+          サインアウト
+        </button>
+      </div>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="editUsername" className="block text-xs font-medium text-gray-700 mb-1">
+        ユーザー名の変更
+      </label>
+      <div className="flex">
+        <input
+          type="text"
+          id="editUsername"
+          value={editUsername}
+          onChange={(e) => setEditUsername(e.target.value)}
+          className="flex-grow py-1 px-2 border border-gray-300 rounded-l-md shadow-sm text-xs leading-4 font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          type="button"
+          onClick={handleUpdateUsername}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1 px-2 rounded-r-md text-xs"
+        >
+          更新
+        </button>
+      </div>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="editProfilePhoto" className="block text-xs font-medium text-gray-700 mb-1">
+        プロフィール写真の変更
+      </label>
+      <div className="flex">
+        <input
+          type="file"
+          id="editProfilePhoto"
+          accept="image/*"
+          onChange={(e) => setEditProfilePhotoFile(e.target.files?.[0] || null)}
+          className="flex-grow py-1 px-2 border border-gray-300 rounded-l-md shadow-sm text-xs leading-4 font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {editProfilePhotoFile && (
+          <button
+            type="button"
+            onClick={handleUpdateProfilePhoto}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1 px-2 rounded-r-md text-xs"
+          >
+            アップロード
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+) : (
+  
           <div className="flex items-center mb-4">
             <FaUser className="text-gray-400 mr-2" />
             <p>ログインしていません</p>
@@ -312,6 +316,8 @@ const BoardPage = () => {
         )}
         <form>
           <div className="mb-4">
+          <h2 className="text-lg font-bold mb-2 text-indigo-900">模試結果</h2>
+
             <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
               模試の結果写真
             </label>
@@ -336,28 +342,29 @@ const BoardPage = () => {
           </div>
         </form>
         <div>
-          {posts.map((post) =>
-            post.photoUrl ? (
-              <div key={post.id} className="mb-4 shadow-md rounded-md overflow-hidden">
-                <img src={post.photoUrl} alt="模試結果" className="max-w-full h-auto" />
-                <div className="p-2 bg-white flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img
-                      src={post.profilePhotoUrl || '/default-profile.png'}
-                      alt="Profile"
-                      className="w-6 h-6 rounded-full mr-2"
-                    />
-                    <p className="text-sm font-medium">{post.username}</p>
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {post.createdAt ? post.createdAt.toDate().toLocaleString() : ''}
-                  </div>
-                </div>
-              </div>
-            ) : null
-          )}
+  {posts.map((post) =>
+    post.photoUrl ? (
+      <div key={post.id} className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <img src={post.photoUrl} alt="模試結果" className="max-w-full h-auto rounded-lg mb-4" />
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center">
+            <img
+              src={post.profilePhotoUrl || '/default-profile.png'}
+              alt="Profile"
+              className="w-8 h-8 rounded-full mr-2"
+            />
+            <p className="text-sm font-medium">{post.username}</p>
+          </div>
+          <div className="text-sm text-gray-500">
+            {post.createdAt ? post.createdAt.toDate().toLocaleString() : ''}
+          </div>
         </div>
       </div>
+    ) : null
+  )}
+</div>
+      </div>
+      
 
       <div className="w-2/3 p-4 bg-white">
         <div className="flex justify-between mb-8">
@@ -406,7 +413,6 @@ const BoardPage = () => {
             </label>
           </div>
         </form>
-
         <ul className="w-full max-w-2xl">
           {posts.map((post) => (
             <li
@@ -436,27 +442,33 @@ const BoardPage = () => {
                 <div className="flex items-center justify-between">
                 <div className="flex items-center">
                 <button
-  onClick={() => handleLike(post.id)}
-  className={`text-orange-600 hover:text-orange-700 focus:outline-none mr-2 ${
-    post.likedBy && post.likedBy.includes(user?.uid || '') ? 'text-orange-700' : ''
-  }`}
-  disabled={!user}
->
-  <FaThumbsUp className="h-5 w-5" />
-</button>
+                  onClick={() => handleLike(post.id)}
+                  className={`text-orange-600 hover:text-orange-700 focus:outline-none mr-2 ${
+                  post.likedBy && post.likedBy.includes(user?.uid || '') ? 'text-orange-700' : ''
+                   }`}
+                   disabled={!user}
+                        >
+                    <FaThumbsUp className="h-5 w-5" />
+                    </button>
                   <span className="text-gray-500">{post.likes}</span>
                 </div>
                 <small className="text-gray-500">
                   {post.createdAt ? post.createdAt.toDate().toLocaleString() : ''}
                 </small>
                 </div>
+
                 </li>
                 ))}
                 </ul>
-                </div>
-                <ZoomSchedule />
-                </div>
+
+       </div>
+       
+    <ZoomSchedule />
+  </div>
+
+     
+
                 )
                 }
-                
+
                 export default BoardPage

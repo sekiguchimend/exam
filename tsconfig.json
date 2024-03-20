@@ -28,6 +28,6 @@
       "**/*.tsx",
       ".next/types/**/*.ts",
       "app/university/toudai.js"
-  ],
+, "app/mail/page.jsx", "app/toudai/page.jsx"  ],
   "exclude": ["node_modules"]
 }
