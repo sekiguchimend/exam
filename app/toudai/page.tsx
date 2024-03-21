@@ -316,7 +316,7 @@ const BoardPage = () => {
         )}
         <form>
           <div className="mb-4">
-          <h2 className="text-lg font-bold mb-2 text-indigo-900">模試結果</h2>
+          <h2 className="text-lg font-bold mb-2 text-indigo-900">皆の模試結果</h2>
 
             <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
               模試の結果写真

@@ -99,24 +99,24 @@ export const Header = () => {
               <NavigationMenuTrigger>How to use ?</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <Link href="/">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        >
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            アプリ化の推奨
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            当サイトはアプリ化に対応しています。ホーム画面に当サイト
-                            を追加することで簡単に使うことができます。10秒で簡単にアプリ化する方法
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </Link>
-                  </li>
-                  <ListItem href="/docs" title="料金の支払い方法">
+                <li className="row-span-3">
+  <Link href="/pwa" passHref>
+    <NavigationMenuLink>
+      <a
+        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+      >
+        <div className="mb-2 mt-4 text-lg font-medium">
+          アプリ化の推奨
+        </div>
+        <p className="text-sm leading-tight text-muted-foreground">
+          当サイトはアプリ化に対応しています。ホーム画面に当サイト
+          を追加することで簡単に使うことができます。10秒で簡単にアプリ化する方法
+        </p>
+      </a>
+    </NavigationMenuLink>
+  </Link>
+</li>
+                  <ListItem href="/pay" title="料金の支払い方法">
                     通常の塾と同じように指定の口座に振り込むだけです
                   </ListItem>
                   <ListItem href="/docs/installation" title="パソコン使用の推奨">
