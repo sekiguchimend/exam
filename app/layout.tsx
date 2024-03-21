@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={notoSansJP.className}>
 
           
-            
+            <Header />
         {children}
        </body>
     </html>

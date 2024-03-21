@@ -4,11 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
  } from "@/components/ui/accordion";
- import { Header } from "../components/Header";
  export default function AccordionDemo() {
   return (
     <>
-    <Header />
+    
     <div className="flex flex-col items-center justify-center">
       <Accordion type="single" collapsible className="w-full max-w-3xl">
         <AccordionItem value="item-1">
