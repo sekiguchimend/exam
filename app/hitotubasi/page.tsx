@@ -226,14 +226,19 @@ if (userData) {
     const photoUrl = await photoRef.getDownloadURL();
   
     await currentUser.updateProfile({ photoURL: photoUrl });
-    setEditProfilePhotoFile(null);
   
     const userRef = firestore.collection('users').doc(currentUser.uid);
     await userRef.update({ profilePhotoUrl: photoUrl });
   
-    const updatedUser = { ...user, profilePhotoUrl: photoUrl };
+    const updatedUser: User = {
+      uid: currentUser.uid || '', // uid が null または undefined の場合は空の文字列を代入する
+      username: user?.username, // もしユーザーが存在する場合、username を保持する
+      profilePhotoUrl: photoUrl,
+    };
+  
     setUser(updatedUser);
   };
+  
   const handleSignOut = async () => {
     await auth.signOut()
   }
