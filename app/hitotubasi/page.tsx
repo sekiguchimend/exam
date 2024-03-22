@@ -119,19 +119,22 @@ if (userData) {
       .collection('posts')
       .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
-        const posts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          text: doc.data().text,
-          createdAt: doc.data().createdAt,
-          likes: doc.data().likes || 0,
-          subject: doc.data().subject,
-          isQuestion: doc.data().isQuestion,
-          photoUrl: doc.data().photoUrl,
-          uid: doc.data().uid,
-          username: doc.data().username,
-          profilePhotoUrl: doc.data().profilePhotoUrl,
-        }))
-        setPosts(posts)
+        const postsWithLikedBy = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            text: doc.data().text,
+            createdAt: doc.data().createdAt,
+            likes: doc.data().likes || 0,
+            subject: doc.data().subject,
+            isQuestion: doc.data().isQuestion,
+            photoUrl: doc.data().photoUrl,
+            uid: doc.data().uid,
+            username: doc.data().username,
+            profilePhotoUrl: doc.data().profilePhotoUrl,
+            likedBy: [], // likedBy プロパティを追加して空の配列として初期化
+          }));
+          
+          setPosts(postsWithLikedBy);
+          
       })
 
     return () => unsubscribe()
