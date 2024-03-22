@@ -94,11 +94,16 @@ const BoardPage = () => {
         }
   
         const userData = userDoc.data();
-        setUser({
-          uid: currentUser.uid,
-          username: userData.username,
-          profilePhotoUrl: userData.profilePhotoUrl,
-        });
+if (userData) {
+  setUser({
+    uid: currentUser.uid,
+    username: userData.username,
+    profilePhotoUrl: userData.profilePhotoUrl,
+  });
+} else {
+  // userData が取得できなかった場合の処理
+}
+
       } else {
         setUser(null);
       }
