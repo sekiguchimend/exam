@@ -20,6 +20,8 @@ type Post = {
   uid: string
   username: string
   profilePhotoUrl?: string
+  likedBy: string[] // ここに likedBy の型を追加する
+
 }
 
 type User = {
@@ -94,11 +96,16 @@ const BoardPage = () => {
         }
   
         const userData = userDoc.data();
-        setUser({
-          uid: currentUser.uid,
-          username: userData.username,
-          profilePhotoUrl: userData.profilePhotoUrl,
-        });
+if (userData) {
+  setUser({
+    uid: currentUser.uid,
+    username: userData.username,
+    profilePhotoUrl: userData.profilePhotoUrl,
+  });
+} else {
+  // userData が取得できなかった場合の処理
+}
+
       } else {
         setUser(null);
       }
@@ -112,19 +119,22 @@ const BoardPage = () => {
       .collection('posts')
       .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
-        const posts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          text: doc.data().text,
-          createdAt: doc.data().createdAt,
-          likes: doc.data().likes || 0,
-          subject: doc.data().subject,
-          isQuestion: doc.data().isQuestion,
-          photoUrl: doc.data().photoUrl,
-          uid: doc.data().uid,
-          username: doc.data().username,
-          profilePhotoUrl: doc.data().profilePhotoUrl,
-        }))
-        setPosts(posts)
+        const postsWithLikedBy = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            text: doc.data().text,
+            createdAt: doc.data().createdAt,
+            likes: doc.data().likes || 0,
+            subject: doc.data().subject,
+            isQuestion: doc.data().isQuestion,
+            photoUrl: doc.data().photoUrl,
+            uid: doc.data().uid,
+            username: doc.data().username,
+            profilePhotoUrl: doc.data().profilePhotoUrl,
+            likedBy: [], // likedBy プロパティを追加して空の配列として初期化
+          }));
+          
+          setPosts(postsWithLikedBy);
+          
       })
 
     return () => unsubscribe()
@@ -197,14 +207,19 @@ const BoardPage = () => {
     if (!currentUser || !editUsername.trim()) return;
   
     await currentUser.updateProfile({ displayName: editUsername });
-    setEditUsername('');
   
     const userRef = firestore.collection('users').doc(currentUser.uid);
     await userRef.update({ username: editUsername });
   
-    const updatedUser = { ...user, username: editUsername };
+    const updatedUser: User = {
+      uid: currentUser.uid || '', // uid が null または undefined の場合は空の文字列を代入する
+      username: editUsername,
+      profilePhotoUrl: user?.profilePhotoUrl, // もしユーザーが存在する場合、profilePhotoUrl を保持する
+    };
+  
     setUser(updatedUser);
   };
+  
   
   const handleUpdateProfilePhoto = async () => {
     const currentUser = auth.currentUser;
@@ -216,14 +231,20 @@ const BoardPage = () => {
     const photoUrl = await photoRef.getDownloadURL();
   
     await currentUser.updateProfile({ photoURL: photoUrl });
-    setEditProfilePhotoFile(null);
   
     const userRef = firestore.collection('users').doc(currentUser.uid);
     await userRef.update({ profilePhotoUrl: photoUrl });
   
-    const updatedUser = { ...user, profilePhotoUrl: photoUrl };
+    const updatedUser: User = {
+      uid: currentUser.uid || '', // uid が null または undefined の場合は空の文字列を代入する
+      username: user?.username || '', // もしユーザーが存在する場合、username を保持する。存在しない場合は空の文字列を代入する
+      profilePhotoUrl: photoUrl,
+    };
+  
     setUser(updatedUser);
   };
+  
+  
   const handleSignOut = async () => {
     await auth.signOut()
   }
