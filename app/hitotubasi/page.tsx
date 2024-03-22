@@ -202,14 +202,19 @@ if (userData) {
     if (!currentUser || !editUsername.trim()) return;
   
     await currentUser.updateProfile({ displayName: editUsername });
-    setEditUsername('');
   
     const userRef = firestore.collection('users').doc(currentUser.uid);
     await userRef.update({ username: editUsername });
   
-    const updatedUser = { ...user, username: editUsername };
+    const updatedUser: User = {
+      uid: currentUser.uid || '', // uid が null または undefined の場合は空の文字列を代入する
+      username: editUsername,
+      profilePhotoUrl: user?.profilePhotoUrl, // もしユーザーが存在する場合、profilePhotoUrl を保持する
+    };
+  
     setUser(updatedUser);
   };
+  
   
   const handleUpdateProfilePhoto = async () => {
     const currentUser = auth.currentUser;
