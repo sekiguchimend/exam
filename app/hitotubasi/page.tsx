@@ -20,6 +20,8 @@ type Post = {
   uid: string
   username: string
   profilePhotoUrl?: string
+  likedBy: string[] // ここに likedBy の型を追加する
+
 }
 
 type User = {
