@@ -1,10 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default function sendGmail(req: NextApiRequest, res: NextApiResponse) {
-    if (!res) {
-        // エラー処理: res が未定義の場合
-        return res.status(500).json({ error: "Response object is not defined" });
-    }
-   
-    return res.status(200).json({ name: "shunya" });
+export const GET = (request: NextRequest) => {
+  // リクエストの処理など
+
+  // エラー処理
+  if (!request) {
+    return NextResponse.json({ error: 'Request object is not defined' }, { status: 500 })
+  }
+
+  return NextResponse.json({ name: 'shunya' })
 }
