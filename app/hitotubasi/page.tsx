@@ -232,12 +232,13 @@ if (userData) {
   
     const updatedUser: User = {
       uid: currentUser.uid || '', // uid が null または undefined の場合は空の文字列を代入する
-      username: user?.username, // もしユーザーが存在する場合、username を保持する
+      username: user?.username || '', // もしユーザーが存在する場合、username を保持する。存在しない場合は空の文字列を代入する
       profilePhotoUrl: photoUrl,
     };
   
     setUser(updatedUser);
   };
+  
   
   const handleSignOut = async () => {
     await auth.signOut()
