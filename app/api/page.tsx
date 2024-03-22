@@ -1,7 +1,6 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = (request: NextRequest) => {
+export default function handler(request: NextRequest) {
   // リクエストの処理など
 
   // エラー処理
