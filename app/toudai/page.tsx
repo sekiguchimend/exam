@@ -257,7 +257,7 @@ const BoardPage = () => {
     </div>
     <div className="mb-4">
       <label htmlFor="editUsername" className="block text-xs font-medium text-gray-700 mb-1">
-        ユーザー名の変更
+        ユーザー名変更
       </label>
       <div className="flex">
         <input

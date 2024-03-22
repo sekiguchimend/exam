@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+    "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext"],
       "types": ["firebase"],
       "allowJs": true,
@@ -8,26 +8,30 @@
       "noEmit": true,
       "esModuleInterop": true,
       "module": "esnext",
-      "moduleResolution": "bundler",
+      "moduleResolution": "node",
       "resolveJsonModule": true,
       "isolatedModules": true,
       "jsx": "preserve",
       "incremental": true,
       "plugins": [
-          {
-              "name": "next"
-          }
+        {
+          "name": "next"
+        }
       ],
       "paths": {
-          "@/*": ["./*"]
+        "@/*": ["./*"]
       }
     },
-  "include": [
+    "include": [
       "next-env.d.ts",
       "**/*.ts",
       "**/*.tsx",
       ".next/types/**/*.ts",
-      "app/university/toudai.js"
-, "app/mail/page.jsx", "app/toudai/page.jsx", ".next/types/app/hitotubasi/page.tsx"  ],
-  "exclude": ["node_modules"]
-}
+      "app/university/toudai.js",
+      "app/mail/page.jsx",
+      "app/toudai/page.jsx",
+      ".next/types/app/hitotubasi/page.tsx"
+    ],
+    "exclude": ["node_modules"]
+  }
+  
