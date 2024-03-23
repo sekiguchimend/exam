@@ -74,12 +74,12 @@ const ZoomSchedule = () => {
 const BoardPage = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [newPost, setNewPost] = useState('')
-  const [subject, setSubject] = useState('general')
   const [isQuestion, setIsQuestion] = useState(false)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [editUsername, setEditUsername] = useState('')
   const [editProfilePhotoFile, setEditProfilePhotoFile] = useState<File | null>(null)
+  const [subject, setSubject] = useState<string>(''); // 初期値を空文字列に設定する
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
