@@ -30,7 +30,6 @@ const MockTestPost: React.FC<MockTestPostProps> = ({ user }) => {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [mockTests, setMockTests] = useState<MockTest[]>([]);
 
-  // MockTestPost.tsx
   useEffect(() => {
     const unsubscribe = firestore
       .collection('mockTests')
@@ -42,26 +41,28 @@ const MockTestPost: React.FC<MockTestPostProps> = ({ user }) => {
           createdAt: doc.data().createdAt,
           photoUrl: doc.data().photoUrl,
           uid: doc.data().uid,
-          username: user?.username || '', // ここを変更
-          profilePhotoUrl: user?.profilePhotoUrl, // ここを変更
+          username: user?.username || '',
+          profilePhotoUrl: user?.profilePhotoUrl,
         }));
         setMockTests(mockTests);
       });
-  
-    return () => unsubscribe();
-  }, [user]); // ここを変更
-  
 
+    return () => unsubscribe();
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPost.trim() || !user) return;
-  
+
     let photoUrl = null;
     if (photoFile) {
       photoUrl = await uploadPhoto(photoFile);
     }
-  
+
+    // subjectとisQuestionの値を設定する
+    const subject = '模試'; // または任意の値
+    const isQuestion = false; // または任意の値
+
     await firestore.collection('posts').add({
       text: newPost,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -70,13 +71,14 @@ const MockTestPost: React.FC<MockTestPostProps> = ({ user }) => {
       isQuestion,
       photoUrl,
       uid: user.uid,
-      username: user.username, // ここを変更
-      profilePhotoUrl: user.profilePhotoUrl, // ここを変更
+      username: user.username,
+      profilePhotoUrl: user.profilePhotoUrl,
       likedBy: [],
     });
     setNewPost('');
     setPhotoFile(null);
   };
+
   const uploadPhoto = async (file: File) => {
     const storageRef = storage.ref();
     const fileRef = storageRef.child(`mockTests/${file.name}`);
@@ -86,7 +88,7 @@ const MockTestPost: React.FC<MockTestPostProps> = ({ user }) => {
 
   return (
     <div className="w-full max-w-2xl mb-8">
-                  <h1 className="text-4xl font-bold text-indigo-800">模試投稿</h1>
+      <h1 className="text-4xl font-bold text-indigo-800">模試投稿</h1>
 
       <form onSubmit={handleSubmit}>
         <div className="flex">
@@ -134,5 +136,3 @@ const MockTestPost: React.FC<MockTestPostProps> = ({ user }) => {
     </div>
   );
 };
-
-export default MockTestPost;
