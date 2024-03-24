@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:babel": "babel . --out-dir dist --extensions '.ts,.tsx' --ignore 'node_modules'"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
@@ -36,6 +37,11 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.3",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
     "@firebase/app": "^0.9.29",
     "@firebase/firestore": "^4.5.0",
     "@types/firebase": "^3.2.1",
