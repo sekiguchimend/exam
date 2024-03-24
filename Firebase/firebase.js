@@ -28,9 +28,7 @@ export const storage = firebase.storage()
 // 投稿の追加処理
 export const handleSubmit = async (newPost, setNewPost, subject, isQuestion, photoFile, user) => {
   if (!newPost.trim() || !user) return
-
   const photoURL = photoFile ? await uploadPhoto(photoFile) : undefined
-
   await firestore.collection('posts').add({
     text: newPost,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -42,7 +40,6 @@ export const handleSubmit = async (newPost, setNewPost, subject, isQuestion, pho
     username: user.displayName,
     profilePhotoUrl: user.photoURL,
   })
-
   // Clear the input fields
   setNewPost('')
   setPhotoFile(null)
