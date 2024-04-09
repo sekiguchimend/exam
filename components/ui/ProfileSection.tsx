@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaGoogle, FaEdit, FaTimes } from 'react-icons/fa';
-import { auth } from '../../Firebase/firebase';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/storage';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 type User = {
   uid: string;
   username: string;
   profilePhotoUrl?: string;
+};
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA7TwQZbXpz3do8HiWrnDHOT50rCgcopF8",
+  authDomain: "exam-cb34f.firebaseapp.com",
+  projectId: "exam-cb34f",
+  storageBucket: "exam-cb34f.appspot.com",
+  messagingSenderId: "137503489253",
+  appId: "1:137503489253:web:d033b66555c44d7f84a80c",
+  measurementId: "G-89SMMVEK7Y"
+  // あなたのFirebase構成
 };
 
 const ProfileSection: React.FC = () => {
@@ -18,6 +28,10 @@ const ProfileSection: React.FC = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   useEffect(() => {
+    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const { uid, displayName, photoURL } = user;
@@ -27,19 +41,30 @@ const ProfileSection: React.FC = () => {
       }
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      app.delete().catch(console.error);
+    };
   }, []);
 
   const handleSignOut = async () => {
+    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const auth = getAuth(app);
     await auth.signOut();
+    app.delete().catch(console.error);
   };
 
   const signIn = async () => {
+    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const auth = getAuth(app);
     const provider = new firebase.auth.GoogleAuthProvider();
     await auth.signInWithPopup(provider);
+    app.delete().catch(console.error);
   };
 
   const handleUpdateUsername = async () => {
+    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const auth = getAuth(app);
     const currentUser = auth.currentUser;
     if (!currentUser || !editUsername.trim()) return;
 
@@ -50,10 +75,14 @@ const ProfileSection: React.FC = () => {
       await currentUser.reload();
     } catch (error) {
       console.error('Error updating username:', error);
+    } finally {
+      app.delete().catch(console.error);
     }
   };
 
   const handleUpdateProfilePhoto = async () => {
+    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const auth = getAuth(app);
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
@@ -63,10 +92,10 @@ const ProfileSection: React.FC = () => {
     }
 
     try {
-      const storageRef = firebase.storage().ref();
-      const photoRef = storageRef.child(`profile-photos/${currentUser.uid}`);
-      await photoRef.put(editProfilePhoto);
-      const photoUrl = await photoRef.getDownloadURL();
+      const storage = getStorage(app);
+      const storageRef = ref(storage, `profile-photos/${currentUser.uid}`);
+      await uploadBytes(storageRef, editProfilePhoto);
+      const photoUrl = await getDownloadURL(storageRef);
 
       await currentUser.updateProfile({ photoURL: photoUrl });
       setEditProfilePhoto(null);
@@ -74,6 +103,8 @@ const ProfileSection: React.FC = () => {
       await currentUser.reload();
     } catch (error) {
       console.error('Error updating profile photo:', error);
+    } finally {
+      app.delete().catch(console.error);
     }
   };
 
