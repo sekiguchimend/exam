@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaGoogle, FaEdit, FaTimes } from 'react-icons/fa';
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getAuth, User as FirebaseUser } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL, FirebaseStorage } from 'firebase/storage';
 
 type User = {
   uid: string;
@@ -28,11 +28,11 @@ const ProfileSection: React.FC = () => {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   useEffect(() => {
-    const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
+    const app: FirebaseApp = initializeApp(firebaseConfig, `app-${Math.random()}`);
     const auth = getAuth(app);
     const storage = getStorage(app);
 
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user: FirebaseUser | null) => {
       if (user) {
         const { uid, displayName, photoURL } = user;
         setUser({ uid, username: displayName || '', profilePhotoUrl: photoURL || undefined });
@@ -92,7 +92,7 @@ const ProfileSection: React.FC = () => {
     }
 
     try {
-      const storage = getStorage(app);
+      const storage: FirebaseStorage = getStorage(app);
       const storageRef = ref(storage, `profile-photos/${currentUser.uid}`);
       await uploadBytes(storageRef, editProfilePhoto);
       const photoUrl = await getDownloadURL(storageRef);
