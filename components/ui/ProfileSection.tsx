@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaGoogle, FaEdit, FaTimes } from 'react-icons/fa';
 import { initializeApp, FirebaseApp } from 'firebase/app';
-import { getAuth, User as FirebaseUser } from 'firebase/auth';
+import { getAuth, User as FirebaseUser, GoogleAuthProvider } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL, FirebaseStorage } from 'firebase/storage';
 
 type User = {
@@ -18,7 +18,6 @@ const firebaseConfig = {
   messagingSenderId: "137503489253",
   appId: "1:137503489253:web:d033b66555c44d7f84a80c",
   measurementId: "G-89SMMVEK7Y"
-  // あなたのFirebase構成
 };
 
 const ProfileSection: React.FC = () => {
@@ -57,7 +56,7 @@ const ProfileSection: React.FC = () => {
   const signIn = async () => {
     const app = initializeApp(firebaseConfig, `app-${Math.random()}`);
     const auth = getAuth(app);
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     await auth.signInWithPopup(provider);
     app.delete().catch(console.error);
   };
