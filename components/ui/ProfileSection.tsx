@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaGoogle } from 'react-icons/fa';
 import { auth } from '../../Firebase/firebase';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const ProfileSection: React.FC = () => {
   const [user, setUser] = useState<firebase.User | null>(null);
