@@ -1,7 +1,8 @@
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
+import firebase from 'firebase/app'
+
+import 'firebase/auth'
+import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyA7TwQZbXpz3do8HiWrnDHOT50rCgcopF8",
@@ -15,15 +16,12 @@ const firebaseConfig = {
 
 // Firebaseの初期化
 firebase.initializeApp(firebaseConfig)
-
-// Authサービスの取得
-export const auth = firebase.auth()
-
-// Firestoreサービスの取得
-export const firestore = firebase.firestore()
+ export const db = firebase.firestore();
+ export const auth = firebase.auth();
+ export const storage = firebase.storage();
+export const firestore = firebase.firestore();
 
 // Storageサービスの取得
-export const storage = firebase.storage()
 
 // 投稿の追加処理
 export const handleSubmit = async (newPost, setNewPost, subject, isQuestion, photoFile, user) => {

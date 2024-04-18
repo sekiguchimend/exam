@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { firestore, storage, auth } from '../../Firebase/firebase'
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
-import 'firebase/compat/auth'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/storage'
+import 'firebase/auth'
 import { FaThumbsUp, FaLink, FaUser, FaGoogle } from 'react-icons/fa'
 import React from 'react'; // Reactをインポートすることを忘れないでください
 
